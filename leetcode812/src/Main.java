@@ -22,25 +22,26 @@ public class Main {
         return maxlen;
     }
     public List<Integer> findAnagrams(String s, String p) {
-     int left = 0;
-     List<Integer> ret = new ArrayList<>();
-     int[] count = new int[26];
-     int sn = s.length();
-     int pn = p.length();
-     if (sn<pn)
-         return ret;
-     for(char x: p.toCharArray()){
-         count[x-'a']++;
-     }
-     for (int right = 0;right<sn;right++){
-         count[s.charAt(right)-'a']--;
-         while (count[s.charAt(right)-'a']<0){
-             count[s.charAt(left)-'a']++;
+        int left = 0;
+        List<Integer> ret = new ArrayList<>();
+        int[] bm = new int[26];
+        if(s.length()<p.length()){
+            return null;
+        }
+        for(char x:s.toCharArray()){
+            bm[x-'a']++;
+        }
+        for(int right = 0;right<s.length();right++){
+            bm[s.charAt(right)-'a']--;
+            while (bm[s.charAt(right-'a')]<0){
+                bm[s.charAt(left)-'a']++;
                 left++;
-         }
-         if(right-left+1==pn) ret.add(left);
-     }
-     return ret;
+            }
+            if(right-left+1==p.length()){
+                ret.add(left);
+            }
+        }
+        return ret;
     }
     public static void main(String[] args) {
 
